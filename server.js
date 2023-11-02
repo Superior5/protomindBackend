@@ -4,7 +4,9 @@ import path, { dirname } from "path";
 import { fileURLToPath } from 'url';
 import connect from "./db/db.js";
 
-import protocolRouter from './routes/protocolRoutes.js'
+import protocolRouter from './routes/protocolRoutes.js';
+import authRouter from './routes/authRoutes.js';
+import userRouter from './routes/userRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +22,8 @@ app.use('/uploads/audios', express.static(path.join(__dirname, 'uploads/audios')
 
 
 app.use('/api', protocolRouter);
+app.use('/api', userRouter);
+app.use('/api/auth', authRouter);
 
 app.listen(process.env.PORT || 5100, () => {
     console.log('server work');
