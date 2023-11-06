@@ -96,7 +96,7 @@ export async function getProtocol(req, res) {
   
   try {
     const protocolId = req.params.id;
-    const protocol = await Protocol.findOne({protocolId});
+    const protocol = await Protocol.findOne({_id: protocolId});
     console.log(protocol);
     res.json({
       protocol,
