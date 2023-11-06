@@ -23,12 +23,14 @@ export async function login(req, res) {
         const user = await User.findOne({login});
        
         if(!user) {
+            console.log(login)
+
             return res.status(400).json({
                 message: 'Неверные логин или пароль',
             })
         }
 
-        const validPassword = bcrypt.compareSync('test33', user.password);
+        const validPassword = bcrypt.compareSync(password, user.password);
 
         if(!validPassword) {
 

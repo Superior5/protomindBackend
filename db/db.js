@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-const mongoURL = "mongodb://localhost:27017/protomind";
-
+const mongoURL = "mongodb+srv://madasaev:oAKiTR6EmhzhV1WA@cluster0.8czp0rb.mongodb.net/"
 
 export default async function connect() {
     mongoose.set("strictQuery", false);

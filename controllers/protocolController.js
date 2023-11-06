@@ -1,5 +1,7 @@
 import fs from "fs";
 import ffmpegPath from '@ffmpeg-installer/ffmpeg';
+import Protocol from "../models/protocolModel.js";
+import fetch from 'node-fetch';
 
 
 import ffmpeg from 'fluent-ffmpeg';
@@ -10,7 +12,12 @@ ffmpeg.setFfmpegPath(ffmpegPath.path);
 export async function addMedia(req, res) {
     let date = req.body;
     let {file} = req;
-    let filename = file.filename.split('.').slice(0, -1).join('.');
+    if(!file || !file.filename) {
+      res.json({
+        msg: "Должен быть загружен файл",
+      })
+    }
+    let filename = file.filename?.split('.').slice(0, -1).join('.');
     const mp4FilePath = `${file.destination}${filename}.mp4`;
     const wavFilePath = `uploads/audios/${filename}.wav`;
     
@@ -48,4 +55,112 @@ export async function addMedia(req, res) {
        return null;
     }
    
+};
+
+
+
+export async function users(req, res) { 
+  try {
+      res.json({
+          msg: 'ok',
+      })
+  } catch (error) {
+      res.json({
+          msg: 'not ok',
+      })
+  }
+}
+
+
+
+export async function getProtocols(req, res) {
+  
+  try {
+    
+    const protocols = await Protocol.find();
+    console.log(protocols);
+    res.json({
+      protocols,
+    })
+    
+  } catch (error) {
+    console.log(error)
+        res.status(400).json({
+        message: 'Произошло ошибка при получении данных',
+    })
+  }
+ 
+};
+
+export async function getProtocol(req, res) {
+  
+  try {
+    const protocolId = req.params.id;
+    const protocol = await Protocol.findOne({protocolId});
+    console.log(protocol);
+    res.json({
+      protocol,
+    })
+    
+  } catch (error) {
+    console.log(error)
+        res.status(400).json({
+        message: 'Произошло ошибка при получении данных',
+    })
+  }
+ 
+};
+
+
+export async function getTranscribe(filepath) {
+
+  const body = {filepath: 'C:/projects/backend/protomindBackend/uploads/audios/2023-11-06T12-30-18.746Z-WIN_20230610_10_22_04_Pro.wav'}
+  const response = await fetch('http://127.0.0.1:8000/transcribe', {
+    method: 'post',
+    body: JSON.stringify(body),
+    headers: {'Content-Type': 'application/json'}
+  });
+
+  console.log(await response.json())
+  return await response.json();
+};
+
+export async function addProtocol(req, res) {
+  
+  try {
+    let data = req.body;
+
+    const {topic, subject, director,
+          secretary, date, video, audio} = data;
+    
+
+    console.log(topic, subject, director,
+      secretary, date, video, audio)
+    
+    console.log(audio);
+    
+    const protocol = new Protocol(
+      {
+        topic,
+        subject,
+        secretary,
+        director,
+        video,
+        audio,
+        date,
+      }
+    )
+  
+    await protocol.save();
+
+    return res.json({
+      message: 'Протокол успешно загружен',
+  });
+    
+  } catch (error) {
+    console.log(error)
+        res.status(400).json({
+        message: 'Ошибка при загрузке протокола, попробуйте обратится к сервису позже',
+    })
+  }
 };

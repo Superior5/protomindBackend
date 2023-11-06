@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/uploads/videos', express.static(path.join(__dirname, 'uploads/videos')));
 app.use('/uploads/audios', express.static(path.join(__dirname, 'uploads/audios')));
 
-
+console.log(path.join(__dirname, 'uploads/videos'))
 app.use('/api', protocolRouter);
 app.use('/api', userRouter);
 app.use('/api/auth', authRouter);
