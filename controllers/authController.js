@@ -85,7 +85,7 @@ export async function registration(req, res) {
         const hashPassword = await bcrypt.hash(password, 7);    
         const userRole = await Role.findOne({value: 'SECRETARY'})
 
-        const user = new User({username, login, name, password: hashPassword, role: userRole.value})
+        const user = new User({username, login, name, password: hashPassword, role: 'SECRETARY'})
         
         await user.save();
 
