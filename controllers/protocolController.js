@@ -2,7 +2,7 @@ import fs from "fs";
 import ffmpegPath from '@ffmpeg-installer/ffmpeg';
 import Protocol from "../models/protocolModel.js";
 import fetch from 'node-fetch';
-
+import mongoose from 'mongoose';
 
 import ffmpeg from 'fluent-ffmpeg';
 
@@ -96,12 +96,17 @@ export async function getProtocol(req, res) {
   
   try {
     const protocolId = req.params.id;
-    const protocol = await Protocol.findOne({_id: protocolId});
+    console.log(protocolId);
+    
+
+    const protocol = await Protocol.findOne({
+      _id: protocolId
+    });
     console.log(protocol);
     res.json({
       protocol,
     })
-    
+  
   } catch (error) {
     console.log(error)
         res.status(400).json({

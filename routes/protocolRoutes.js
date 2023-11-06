@@ -7,7 +7,7 @@ const router = Router();
 router.post('/addMedia', fileMiddleware.single('file'), addMedia);
 router.post('/addProtocol', addProtocol);
 router.get('/getProtocols', getProtocols);
-router.get('/getProtocol', getProtocol);
+router.get('/getProtocol/:id', getProtocol);
 router.get('/getTranscribe', getTranscribe);
 
 export default router;
