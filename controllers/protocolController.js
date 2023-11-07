@@ -60,6 +60,17 @@ export async function addMedia(req, res) {
 
 
 
+export async function addFile(req, res) {
+  
+  let {file} = req;
+
+  res.json({
+    filename: file?.filename
+  })
+ 
+};
+
+
 export async function users(req, res) { 
   try {
       res.json({
