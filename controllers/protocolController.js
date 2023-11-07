@@ -22,6 +22,7 @@ export async function addMedia(req, res) {
     const mp4FilePath = `${file.destination}${filename}.mp4`;
     const wavFilePath = `uploads/audios/${filename}.wav`;
     
+    console.log(filename, file.destination);
     try {
       ffmpeg(mp4FilePath)
       .output(wavFilePath)
