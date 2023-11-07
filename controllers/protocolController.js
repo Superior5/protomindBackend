@@ -11,9 +11,10 @@ ffmpeg.setFfmpegPath(ffmpegPath.path);
 
 export async function addMedia(req, res) {
     let date = req.body;
+    console.log('addMedia')
     let {file} = req;
     if(!file || !file.filename) {
-      res.json({
+      return res.json({
         msg: "Должен быть загружен файл",
       })
     }
