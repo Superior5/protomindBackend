@@ -23,39 +23,42 @@ export async function addMedia(req, res) {
     const wavFilePath = `uploads/audios/${filename}.wav`;
     
     console.log(filename, file.destination);
-    try {
-      ffmpeg(mp4FilePath)
-      .output(wavFilePath)
-      .audioCodec('pcm_s16le')
-      .audioChannels(1)
-      .format('wav')
-      .on('end', () => {
-        res.json({
-          msg: "Файлы успешно загружены",
-          links: {
-            audio: wavFilePath,
-            video: mp4FilePath
-          }
-        })
+    res.json({
+      msg: "Данные загружены",
+    })
+    // try {
+    //   ffmpeg(mp4FilePath)
+    //   .output(wavFilePath)
+    //   .audioCodec('pcm_s16le')
+    //   .audioChannels(1)
+    //   .format('wav')
+    //   .on('end', () => {
+    //     res.json({
+    //       msg: "Файлы успешно загружены",
+    //       links: {
+    //         audio: wavFilePath,
+    //         video: mp4FilePath
+    //       }
+    //     })
         
-        return null;
-      })
-      .on('error', (err) => {
-        console.error('Возникли ошибки с получением аудио:', err);
-        res.json({
-          msg: "Возникли ошибки с загрузкой данных",
-          error: err,
-        })
-      })
-      .run(); 
-    } catch (error) {
-       res.json({
-        msg: 'Возникли проблемы с обработкой данных',
-        error: err
-       })
+    //     return null;
+    //   })
+    //   .on('error', (err) => {
+    //     console.error('Возникли ошибки с получением аудио:', err);
+    //     res.json({
+    //       msg: "Возникли ошибки с загрузкой данных",
+    //       error: err,
+    //     })
+    //   })
+    //   .run(); 
+    // } catch (error) {
+    //    res.json({
+    //     msg: 'Возникли проблемы с обработкой данных',
+    //     error: err
+    //    })
 
-       return null;
-    }
+    //    return null;
+    // }
    
 };
 
