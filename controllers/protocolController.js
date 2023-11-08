@@ -93,6 +93,12 @@ export async function getProtocols(req, res) {
     
     const protocols = await Protocol.find();
     console.log(protocols);
+
+    protocols.array.forEach(element => {
+      const secretary = element.secretary;
+      
+
+    });
     res.json({
       protocols,
     })
@@ -161,16 +167,17 @@ export async function addProtocol(req, res) {
           secretary, date, video, audio} = data;
     
 
-    console.log(topic, subject, director,
-      secretary, date, video, audio)
-    
-    console.log(audio);
+    secretary = await User.findOne({_id: secretary})
     
     const protocol = new Protocol(
       {
         topic,
         subject,
-        secretary,
+        secretary: JSON.stringify({
+          id: secretary._id,
+          name: secretary.name,
+          nickname: secretary.username,
+        }),
         director,
         video,
         audio,
