@@ -1,6 +1,7 @@
 import fs from "fs";
 import ffmpegPath from '@ffmpeg-installer/ffmpeg';
 import Protocol from "../models/protocolModel.js";
+import User from "../models/userModel.js";
 import fetch from 'node-fetch';
 import mongoose from 'mongoose';
 
@@ -115,6 +116,12 @@ export async function getProtocol(req, res) {
     const protocol = await Protocol.findOne({
       _id: protocolId
     });
+    const secretary = await User.findOne({_id: protocol.secretary})
+    protocol.secretary = {
+      id: secretary._id,
+      name: secretary.name,
+      nickname: secretary.username,
+    }
     console.log(protocol);
     res.json({
       protocol,
@@ -130,7 +137,7 @@ export async function getProtocol(req, res) {
 };
 
 
-export async function getTranscribe(filepath) {
+async function getTranscribe(filepath) {
 
   const body = {filepath: 'C:/projects/backend/protomindBackend/uploads/audios/2023-11-06T12-30-18.746Z-WIN_20230610_10_22_04_Pro.wav'}
   const response = await fetch('http://127.0.0.1:8000/transcribe', {
