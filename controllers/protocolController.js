@@ -186,7 +186,7 @@ export async function addProtocol(req, res) {
           nickname: secretary.username,
         }),
         director,
-        transcribe,
+        transcribe: JSON.stringify(transcribe),
         video,
         audio,
         date,
