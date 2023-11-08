@@ -115,7 +115,9 @@ export async function getProtocol(req, res) {
     const protocol = await Protocol.findOne({
       _id: protocolId
     });
-    const secretary = await User.findOne({_id: protocol.secretary})
+
+
+    const secretary = await User.findOne({_id: JSON.parse(protocol.secretary).id})
 
 
     protocol.secretary = JSON.stringify({
@@ -166,7 +168,7 @@ export async function addProtocol(req, res) {
 
     let {secretary} = data 
     
-    console.log(data)
+    
 
     secretary = await User.findOne({_id: secretary}).catch(()=> {
       return res.json({
