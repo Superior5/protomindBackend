@@ -94,11 +94,6 @@ export async function getProtocols(req, res) {
     const protocols = await Protocol.find();
     console.log(protocols);
 
-    protocols.array.forEach(element => {
-      const secretary = element.secretary;
-      
-
-    });
     res.json({
       protocols,
     })
@@ -144,10 +139,11 @@ export async function getProtocol(req, res) {
  
 };
 
+export async function getTranscribe(req, res) {
 
-async function getTranscribe(filepath) {
+  const filepath = req.body;
+  const body = {filepath: `C:/projects/backend/protomindBackend/${filepath}`}
 
-  const body = {filepath: 'C:/projects/backend/protomindBackend/uploads/audios/2023-11-06T12-30-18.746Z-WIN_20230610_10_22_04_Pro.wav'}
   const response = await fetch('http://127.0.0.1:8000/transcribe', {
     method: 'post',
     body: JSON.stringify(body),
@@ -155,20 +151,29 @@ async function getTranscribe(filepath) {
   });
 
   console.log(await response.json())
-  return await response.json();
+  return res.json(
+    await response.json()
+  )
 };
 
 export async function addProtocol(req, res) {
-  
-  try {
+
+    try {
     let data = req.body;
 
     const {topic, subject, director,
-          secretary, date, video, audio} = data;
-    
+           date, video, audio} = data;
 
-    secretary = await User.findOne({_id: secretary})
+    let {secretary} = data 
     
+    console.log(data)
+
+    secretary = await User.findOne({_id: secretary}).catch(()=> {
+      return res.json({
+        message: "Неверно указан секретарь"
+      })
+    })
+
     const protocol = new Protocol(
       {
         topic,
@@ -179,6 +184,7 @@ export async function addProtocol(req, res) {
           nickname: secretary.username,
         }),
         director,
+        transcribe: text,
         video,
         audio,
         date,
