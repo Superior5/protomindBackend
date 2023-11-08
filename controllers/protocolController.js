@@ -110,8 +110,6 @@ export async function getProtocol(req, res) {
   
   try {
     const protocolId = req.params.id;
-    console.log(protocolId);
-    
 
     const protocol = await Protocol.findOne({
       _id: protocolId
@@ -119,20 +117,16 @@ export async function getProtocol(req, res) {
     const secretary = await User.findOne({_id: protocol.secretary})
 
 
-    protocol.secretary = {
-      id: secretary._id,
-      name: secretary.name,
-      nickname: secretary.username,
-    }
-
-    // console.log(protocol);
-    return res.json({
-      protocol,
-      secretary: {
+    protocol.secretary = JSON.stringify({
         id: secretary._id,
         name: secretary.name,
         nickname: secretary.username,
-      }
+    })
+
+    console.log(protocol);
+
+    return res.json({
+      protocol,
     })
   
   } catch (error) {
