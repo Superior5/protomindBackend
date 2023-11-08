@@ -162,7 +162,7 @@ export async function addProtocol(req, res) {
     let data = req.body;
 
     const {topic, subject, director,
-           date, video, audio} = data;
+           date, video, audio, transcribe} = data;
 
     let {secretary} = data 
     
@@ -184,7 +184,7 @@ export async function addProtocol(req, res) {
           nickname: secretary.username,
         }),
         director,
-        transcribe: text,
+        transcribe,
         video,
         audio,
         date,
