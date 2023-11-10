@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 export async function getUsers(req, res) { 
 
     try {
-        const users = await User.find();
+        const users = await User.find({role: "SECRETARY"});
         res.json({
             users,
             total: users.length,
